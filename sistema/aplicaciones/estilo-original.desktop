@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Estilo: Original
+Comment=Cambia el escritorio al estilo Original
+Exec=/home/moick/.local/bin/estilo poner original
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;

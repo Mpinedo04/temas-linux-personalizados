@@ -2,8 +2,8 @@
 
 Este documento explica a una IA (o a cualquiera) cómo está montado el sistema de
 estilos de este escritorio. Para el usuario hay una ayuda más corta en
-`LEEME - Si algo va mal.txt`, en esta misma carpeta, y los pasos para instalar
-los temas en `README.md`.
+`LEEME - Si algo va mal.txt`, en esta misma carpeta, y un resumen de las
+mejoras en `README.md`.
 
 ## Qué es
 
@@ -28,6 +28,9 @@ El estilo puesto en cada momento está en `~/.local/share/estilos/.actual`.
 | El comando `estilo` (script bash) | `~/.local/bin/estilo` |
 | Estilos guardados (una carpeta por estilo) | `~/.local/share/estilos/<nombre>/` |
 | Estilo puesto ahora | `~/.local/share/estilos/.actual` |
+| Huella del `.ron` ya importado en cada estilo | `~/.local/share/estilos/<nombre>/.ron-importado` |
+| Esquemas y esquema elegido de la Terminal | `~/.config/cosmic/com.system76.CosmicTerm/v1/` (`color_schemes_dark`, `color_schemes_light`, `syntax_theme_dark`, `syntax_theme_light`) |
+| Copias de seguridad (antes de las mejoras) | `~/.local/share/estilos-backup/` |
 | Copia automática del aspecto anterior | `~/.local/share/estilos/.anterior/` |
 | Temas de color importables (`.ron`) | `~/Documentos/Estilos/Temas de color/` |
 | Esquemas para la Terminal de COSMIC (`.ron`) | `~/Documentos/Estilos/Temas de terminal/` |
@@ -36,7 +39,9 @@ El estilo puesto en cada momento está en `~/.local/share/estilos/.actual`.
 | Accesos en el menú ("Estilo: …") | `~/.local/share/applications/estilo-*.desktop` (uno por estilo, más `estilo-guardar.desktop`) |
 | Apps ancladas al dock | `~/.config/cosmic/com.system76.CosmicAppList/v1/favorites` |
 
-Este repositorio es una copia de `~/Documentos/Estilos/`.
+Este repositorio es una copia de `~/Documentos/Estilos/`. Además guarda, en
+`sistema/`, una copia del comando `estilo` y de los accesos del menú
+(`sistema/aplicaciones/`), por si hay que reinstalarlos.
 
 ## Cómo funciona el comando `estilo`
 
@@ -46,8 +51,11 @@ Este repositorio es una copia de `~/Documentos/Estilos/`.
   2. Copia el estilo en `~/.config/cosmic/`, pero solo los archivos que cambian.
   3. Cada archivo se prepara primero fuera de la carpeta, en `~/.local/share/estilos/.escribiendo`, y se mueve de golpe con `mv`. Así COSMIC, que vigila esa carpeta, no lee archivos a medio escribir.
 
+  4. Pone en la Terminal el esquema del estilo (ver más abajo).
+  5. Si el `.ron` del estilo es nuevo o ha cambiado (su sha256 no coincide con `.ron-importado`), o el estilo tiene `.colores-pendientes`, lo importa solo con `cosmic-settings appearance import`, espera a que COSMIC calcule el tema y guarda el resultado en el estilo (como `estilo guardar`). Si falla, marca `.colores-pendientes`, avisa y abre Apariencia para hacerlo a mano.
+
   COSMIC aplica el cambio al momento, sin reiniciar nada. No se borran carpetas; solo se sobrescriben archivos.
-- `estilo guardar [NOMBRE]`: guarda la configuración actual de COSMIC en el estilo indicado o, sin nombre, en el que está puesto. Después comprueba si los colores del `.ron` ya se importaron: compara el acento del Builder con el del tema calculado. Si faltan, crea el archivo de marca `.colores-pendientes` dentro del estilo.
+- `estilo guardar [NOMBRE]`: guarda la configuración actual de COSMIC en el estilo indicado o, sin nombre, en el que está puesto. Conserva `.ron-importado`, así los retoques que haga el usuario en Apariencia no se pisan al volver a poner el estilo. Después comprueba si los colores del `.ron` ya se importaron: compara el acento del Builder con el del tema calculado. Si faltan, crea el archivo de marca `.colores-pendientes` dentro del estilo.
 - `estilo borrar NOMBRE`: borra un estilo, excepto `original`.
 - Los nombres de estilo solo admiten letras, números, `-` y `_`.
 - Avisa al usuario con notificaciones de escritorio (gdbus → org.freedesktop.Notifications).
@@ -68,28 +76,19 @@ com.system76.CosmicBackground
 com.system76.CosmicComp
 ```
 
-## La pega con los colores
+## Los colores se importan solos
 
 COSMIC calcula el tema final a partir del "Builder", y copiando archivos los
-colores no se aplican bien. Por eso, la primera vez que se pone cada estilo hay
-que hacer esto a mano:
+colores no se aplican bien. Antes había que importar cada `.ron` a mano en
+Apariencia. Ahora `estilo poner` lo hace solo con
+`cosmic-settings appearance import <archivo.ron>` (disponible en la versión
+instalada; no abre ninguna ventana y también cambia a modo claro u oscuro).
 
-1. Apariencia → **Importar** → `Documentos/Estilos/Temas de color/<estilo>.ron`
-2. Menú → **"Estilo: Guardar cambios"** (o `estilo guardar`)
-
-Si el estilo tiene `.colores-pendientes`, al ponerlo el script avisa con una
-notificación y abre Apariencia él solo (`cosmic-settings appearance`).
-
-Cuando se cambia un `.ron`, hay que repetir estos dos pasos en ese estilo
-aunque ya se hubieran hecho antes: su carpeta guarda los colores viejos y no
-tiene `.colores-pendientes`, así que el script no avisa.
-
-Las versiones recientes de COSMIC Settings traen
-`cosmic-settings appearance import <archivo.ron>`, que hace lo mismo que el
-botón Importar sin abrir la ventana (también cambia a modo claro u oscuro según
-el tema). Si el sistema lo tiene, el script `estilo` podría llamarlo al poner un
-estilo con `.colores-pendientes` y quitar el paso manual. Comprobarlo antes con
-`cosmic-settings appearance --help`.
+- Solo importa cuando hace falta: la primera vez, o cuando el `.ron` cambia
+  (se compara su sha256 con `.ron-importado` del estilo).
+- Para forzar que se vuelva a importar un estilo: borrar su
+  `.ron-importado` y ponerlo otra vez.
+- Si cambias un `.ron`, basta con volver a poner ese estilo.
 
 ## Los temas de color (`.ron`)
 
@@ -135,11 +134,19 @@ panel y tooltips · `radius_xl` **botones**, interruptores y buscadores.
 ## Esquemas de la Terminal (`Temas de terminal/`)
 
 Uno por estilo, con el mismo nombre de archivo: Hacker Matrix, macOS Claro,
-Nord y Windows Campbell (el de serie de Windows Terminal). Se importan en la
-Terminal de COSMIC: menú **Vista → Esquemas de color… → Importar** (el de macOS
-en la lista de esquemas claros) y se eligen en **Vista → Ajustes… →
-Apariencia**. La Terminal no forma parte de lo que guarda `estilo`; si se
-quiere, habría que añadir `com.system76.CosmicTerm` a la lista de arriba.
+Nord y Windows Campbell (el de serie de Windows Terminal). Se instalan y
+cambian solos:
+
+- Al poner un estilo que tiene esquema, `estilo` añade a la Terminal los
+  esquemas que le falten (en `color_schemes_dark`, o `color_schemes_light`
+  para `macos.ron`), con números a partir de 1000 y sin tocar los que haya
+  importado el usuario.
+- Después escribe el nombre del esquema en `syntax_theme_dark` (o
+  `syntax_theme_light` para macos). Los estilos sin esquema (como
+  `original`) vuelven a `COSMIC Dark` / `COSMIC Light`.
+- La Terminal abierta cambia de colores al momento.
+- Si el usuario crea perfiles en la Terminal, cada perfil tiene su propio
+  esquema y este automatismo no los cambia.
 
 ## Cómo cambiar o regenerar los temas
 
@@ -184,3 +191,4 @@ python3 herramientas/gen_term.py "Temas de terminal"
   - su `.ron` en `Temas de color/` (añadir su bloque en `herramientas/gen.py`)
   - su fondo en `~/Imágenes/Fondos-estilos/`
   - su `.desktop` en `~/.local/share/applications/`
+  - (opcional) su esquema en `Temas de terminal/` con el mismo nombre (añadir su bloque en `herramientas/gen_term.py`)

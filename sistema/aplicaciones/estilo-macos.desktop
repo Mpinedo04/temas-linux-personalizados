@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Estilo: macOS
+Comment=Cambia el escritorio al estilo macOS
+Exec=/home/moick/.local/bin/estilo poner macos
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;

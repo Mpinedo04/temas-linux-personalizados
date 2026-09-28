@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Estilo: Windows
+Comment=Cambia el escritorio al estilo Windows
+Exec=/home/moick/.local/bin/estilo poner windows
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;

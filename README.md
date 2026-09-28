@@ -35,32 +35,15 @@ Un poco más de separación entre ventanas.
 verde fósforo, avisos en ámbar de monitor antiguo, interfaz más compacta y la
 barra, el dock y los menús de cristal oscuro semitransparente.
 
-## Cómo instalarlos
+## Cómo usarlos
 
-**1. Copia los archivos nuevos**
+Ya está todo instalado. No tienes que importar nada a mano:
 
-Copia la carpeta `Temas de color` de aquí dentro de `Documentos/Estilos/`,
-reemplazando los archivos que ya tienes. Copia también la carpeta
-`Temas de terminal`.
-
-**2. Vuelve a importar cada estilo, una sola vez**
-
-Aunque ya lo hicieras antes, hay que repetirlo porque los colores han cambiado.
-Para cada estilo (macOS, Windows, Minimalista y Hacker):
-
-1. Ponlo desde el menú: **"Estilo: …"**.
-2. Abre **Configuración → Escritorio → Apariencia** y pulsa **Importar**.
-3. Elige `Documentos/Estilos/Temas de color/<estilo>.ron`.
-4. En el menú, pulsa **"Estilo: Guardar cambios"**.
-
-Así queda guardado y la próxima vez que pongas ese estilo saldrá ya bien.
-
-**3. (Opcional) Colores a juego en la Terminal**
-
-1. Abre la Terminal y ve al menú **Vista → Esquemas de color… → Importar**.
-2. Elige los archivos de `Documentos/Estilos/Temas de terminal/`. El de macOS
-   va en la lista de esquemas **claros**; los otros tres, en la de **oscuros**.
-3. Ve a **Vista → Ajustes… → Apariencia** y elige el esquema que quieras.
+- Pon el estilo que quieras desde el menú (**"Estilo: …"**). La primera vez
+  que pongas cada uno tarda un segundo más porque importa sus colores nuevos
+  y los guarda solo.
+- La **Terminal** cambia también de colores sola, a juego con el estilo.
+  Con "Estilo: Original" vuelve a sus colores de serie.
 
 ## Si algo no te gusta
 
@@ -69,8 +52,10 @@ Así queda guardado y la próxima vez que pongas ese estilo saldrá ya bien.
   cambios".
 - **Volver a como estaba todo al principio**: abre la Terminal y escribe
   `estilo poner original`.
-- Tus archivos `.ron` antiguos siguen sirviendo: si importas uno de ellos, ese
-  estilo vuelve a verse como antes.
+- Tus archivos `.ron` antiguos están guardados en
+  `~/.local/share/estilos-backup/ron-antiguos/`. Si importas uno de ellos en
+  Apariencia y pulsas "Estilo: Guardar cambios", ese estilo vuelve a verse
+  como antes.
 
 ## Para quien quiera tocar los temas
 

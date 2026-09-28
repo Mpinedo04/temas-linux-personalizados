@@ -1,0 +1,180 @@
+#!/usr/bin/env bash
+# estilo: guarda y cambia entre estilos de escritorio COSMIC
+set -euo pipefail
+
+CFG="$HOME/.config/cosmic"
+DIR="$HOME/.local/share/estilos"
+TEMAS="$HOME/Documentos/Estilos/Temas de color"
+TERMINAL="$HOME/Documentos/Estilos/Temas de terminal"
+TERM_CFG="$CFG/com.system76.CosmicTerm/v1"
+PARTES=(
+  com.system76.CosmicTheme.Dark
+  com.system76.CosmicTheme.Dark.Builder
+  com.system76.CosmicTheme.Light
+  com.system76.CosmicTheme.Light.Builder
+  com.system76.CosmicTheme.Mode
+  com.system76.CosmicTk
+  com.system76.CosmicPanel
+  com.system76.CosmicPanel.Panel
+  com.system76.CosmicPanel.Dock
+  com.system76.CosmicBackground
+  com.system76.CosmicComp
+)
+
+uso() {
+  cat <<AYUDA
+Uso:
+  estilo lista             Muestra los estilos guardados (* = el que tienes puesto)
+  estilo poner NOMBRE      Aplica el estilo NOMBRE
+  estilo guardar [NOMBRE]  Guarda el aspecto actual (sin nombre: en el estilo puesto)
+  estilo borrar NOMBRE     Borra el estilo NOMBRE
+AYUDA
+}
+
+notificar() { # título, texto
+  gdbus call --session --dest org.freedesktop.Notifications \
+    --object-path /org/freedesktop/Notifications \
+    --method org.freedesktop.Notifications.Notify \
+    "Estilos" 0 "preferences-desktop-theme" "$1" "$2" "[]" "{}" 15000 >/dev/null 2>&1 || true
+}
+
+actual() { cat "$DIR/.actual" 2>/dev/null || true; }
+
+valido() { [[ "$1" =~ ^[A-Za-z0-9_-]+$ ]] || { echo "Nombre no válido: '$1' (usa letras, números, - o _)"; exit 1; }; }
+
+colores_importados() { # ¿el tema calculado usa ya el acento del tema importado?
+  local modo=Dark
+  [[ "$(cat "$CFG/com.system76.CosmicTheme.Mode/v1/is_dark" 2>/dev/null)" == "false" ]] && modo=Light
+  local want got
+  want=$(grep -o '#[0-9A-Fa-f]\{8\}' "$CFG/com.system76.CosmicTheme.$modo.Builder/v2/accent" 2>/dev/null || true)
+  got=$(grep -m1 -o 'base: "#[0-9A-Fa-f]\{8\}' "$CFG/com.system76.CosmicTheme.$modo/v2/accent" 2>/dev/null | grep -o '#.*' || true)
+  [[ -z "$want" || "${want^^}" == "${got^^}" ]]
+}
+
+copiar() { # origen destino
+  for p in "${PARTES[@]}"; do
+    if [[ -d "$1/$p" ]]; then
+      mkdir -p "$2/$p"
+      cp -a "$1/$p/." "$2/$p/"
+    fi
+  done
+}
+
+aplicar() { # estilo destino: sobrescribe solo lo que cambia, sin borrar carpetas
+  for p in "${PARTES[@]}"; do
+    [[ -d "$1/$p" ]] || continue
+    (cd "$1/$p" && find . -type f) | while read -r f; do
+      if ! cmp -s "$1/$p/$f" "$2/$p/$f"; then
+        mkdir -p "$(dirname "$2/$p/$f")"
+        # se prepara fuera de la carpeta vigilada por COSMIC y se mueve de golpe
+        # (un archivo temporal dentro de ella lo leería como si fuera un ajuste)
+        cp "$1/$p/$f" "$DIR/.escribiendo" && mv -f "$DIR/.escribiendo" "$2/$p/$f"
+      fi
+    done
+  done
+}
+
+escribir() { # contenido destino: se prepara fuera y se mueve de golpe (ver aplicar)
+  mkdir -p "$(dirname "$2")"
+  printf '%s\n' "$1" > "$DIR/.escribiendo" && mv -f "$DIR/.escribiendo" "$2"
+}
+
+importar_colores() { # nombre: importa su .ron si es nuevo o ha cambiado desde la última vez
+  local ron="$TEMAS/$1.ron" marca="$DIR/$1/.ron-importado" suma
+  [[ -f "$ron" ]] || return 0
+  suma=$(sha256sum < "$ron" | cut -d' ' -f1)
+  [[ ! -e "$DIR/$1/.colores-pendientes" && "$(cat "$marca" 2>/dev/null)" == "$suma" ]] && return 0
+  cosmic-settings appearance import "$ron" >/dev/null 2>&1 || return 1
+  for _ in 1 2 3 4 5 6 7 8 9 10; do colores_importados && break; sleep 0.5; done
+  colores_importados || return 1
+  # se guarda en el estilo para que la próxima vez salga ya bien
+  copiar "$CFG" "$DIR/$1"
+  rm -f "$DIR/$1/.colores-pendientes"
+  echo "$suma" > "$marca"
+  echo "  Colores de '$1.ron' importados y guardados"
+}
+
+esquemas_terminal() { # añade los esquemas de 'Temas de terminal' que aún no tenga la Terminal
+  local f nombre tipo archivo id
+  for f in "$TERMINAL"/*.ron; do
+    [[ -f "$f" ]] || continue
+    nombre=$(grep -m1 -o 'name: *"[^"]*"' "$f" | sed 's/.*"\(.*\)"/\1/')
+    tipo=dark; [[ "$(basename "$f" .ron)" == macos ]] && tipo=light
+    archivo="$TERM_CFG/color_schemes_$tipo"
+    grep -qF "name: \"$nombre\"" "$archivo" 2>/dev/null && continue
+    # número libre para el nuevo esquema
+    id=1000; while grep -q "^ *$id:" "$archivo" 2>/dev/null; do id=$((id + 1)); done
+    local previo="{"
+    if [[ -s "$archivo" ]]; then
+      previo=$(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[[:space:]]*}[[:space:]]*$//' -e 's/,[[:space:]]*$//' "$archivo")
+      [[ "$previo" =~ \{[[:space:]]*$ ]] || previo+=","
+    fi
+    escribir "$previo
+    $id: $(sed 's/^/    /; 1s/^    //' "$f"),
+}" "$archivo"
+  done
+}
+
+terminal() { # nombre: pone en la Terminal el esquema del estilo (o el de serie si no tiene)
+  local f="$TERMINAL/$1.ron" oscuro="COSMIC Dark" claro="COSMIC Light" nombre
+  if [[ -f "$f" ]]; then
+    esquemas_terminal
+    nombre=$(grep -m1 -o 'name: *"[^"]*"' "$f" | sed 's/.*"\(.*\)"/\1/')
+    if [[ "$1" == macos ]]; then claro=$nombre; else oscuro=$nombre; fi
+  fi
+  [[ "$(cat "$TERM_CFG/syntax_theme_dark" 2>/dev/null)" == "\"$oscuro\"" ]] || escribir "\"$oscuro\"" "$TERM_CFG/syntax_theme_dark"
+  [[ "$(cat "$TERM_CFG/syntax_theme_light" 2>/dev/null)" == "\"$claro\"" ]] || escribir "\"$claro\"" "$TERM_CFG/syntax_theme_light"
+}
+
+case "${1:-}" in
+  lista)
+    a=$(actual)
+    for s in "$DIR"/*/; do
+      s=$(basename "$s")
+      [[ "$s" == "$a" ]] && echo "* $s" || echo "  $s"
+    done ;;
+  guardar)
+    nombre="${2:-$(actual)}"
+    [[ -n "$nombre" ]] || { uso; exit 1; }
+    valido "$nombre"
+    marca=$(cat "$DIR/$nombre/.ron-importado" 2>/dev/null || true)
+    rm -rf "${DIR:?}/$nombre"
+    copiar "$CFG" "$DIR/$nombre"
+    [[ -z "$marca" ]] || echo "$marca" > "$DIR/$nombre/.ron-importado"
+    echo "$nombre" > "$DIR/.actual"
+    if colores_importados; then
+      echo "✔ Estilo '$nombre' guardado"
+      notificar "Estilo '$nombre' guardado" "La próxima vez que lo pongas se verá exactamente así."
+    else
+      touch "$DIR/$nombre/.colores-pendientes"
+      echo "✔ Estilo '$nombre' guardado (aún faltan sus colores: Apariencia → Importar → $nombre.ron)"
+      notificar "Estilo '$nombre' guardado, pero sin sus colores" \
+        "Aún no has importado «$nombre.ron» en Apariencia. Impórtalo y vuelve a pulsar «Estilo: Guardar cambios»."
+    fi ;;
+  poner)
+    valido "${2:-}"
+    [[ -d "$DIR/${2:-}" ]] || { echo "No existe el estilo '${2:-}'. Estilos:"; ls -1 "$DIR"; exit 1; }
+    # copia de seguridad automática del aspecto actual
+    rm -rf "$DIR/.anterior"; copiar "$CFG" "$DIR/.anterior"
+    aplicar "$DIR/$2" "$CFG"
+    echo "$2" > "$DIR/.actual"
+    # COSMIC aplica los cambios al momento: no hace falta reiniciar nada
+    echo "✔ Estilo '$2' aplicado"
+    terminal "$2" || true
+    if ! importar_colores "$2"; then
+      touch "$DIR/$2/.colores-pendientes"
+      notificar "Falta un paso para el estilo '$2'" \
+        "No se pudieron importar los colores solos. En Apariencia pulsa «Importar» y elige «$2.ron» (Documentos › Estilos › Temas de color). Después abre «Estilo: Guardar cambios»."
+      echo "  Falta importar los colores: Apariencia → Importar → $TEMAS/$2.ron"
+      echo "  y después: estilo guardar"
+      (setsid cosmic-settings appearance >/dev/null 2>&1 &)
+    else
+      notificar "Estilo '$2' aplicado" "Para volver atrás, elige otro estilo en el menú."
+    fi ;;
+  borrar)
+    [[ -n "${2:-}" && -d "$DIR/$2" ]] || { uso; exit 1; }
+    valido "$2"
+    [[ "$2" != original ]] || { echo "El estilo 'original' está protegido: es tu copia de seguridad."; exit 1; }
+    rm -rf "${DIR:?}/$2"; echo "✔ Estilo '$2' borrado" ;;
+  *) uso ;;
+esac

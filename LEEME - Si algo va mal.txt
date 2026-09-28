@@ -1,0 +1,53 @@
+ESTILOS DEL ESCRITORIO — AYUDA RÁPIDA
+======================================
+
+Cambiar de estilo
+-----------------
+Pulsa la tecla Super, escribe "estilo" y elige uno:
+  Estilo: Original · macOS · Windows · Minimalista · Hacker
+
+O desde la terminal:
+  estilo lista            (el que tiene * es el que tienes puesto)
+  estilo poner hacker
+
+Guardar lo que has cambiado en Apariencia
+-----------------------------------------
+Menú → "Estilo: Guardar cambios"   (o en la terminal: estilo guardar)
+Se guarda dentro del estilo que tienes puesto.
+
+Los colores y la Terminal
+-------------------------
+No hay que hacer nada: al poner un estilo, sus colores se importan
+solos (la primera vez tarda un segundo más) y la Terminal cambia
+también de colores a juego.
+Solo si sale un aviso de "Falta un paso": en Apariencia pulsa
+"Importar", elige Documentos › Estilos › Temas de color › <estilo>.ron
+y después Menú → "Estilo: Guardar cambios".
+
+SI ALGO VA MAL
+--------------
+1. Volver a como estaba todo al principio:
+     estilo poner original
+2. Deshacer el último cambio de estilo (vuelve al aspecto justo anterior):
+     estilo guardar rescate-tmp   (opcional, por si acaso)
+     cp -a ~/.local/share/estilos/.anterior ~/.local/share/estilos/deshacer
+     estilo poner deshacer
+3. Si la barra parpadea un segundo al cambiar de estilo: es normal,
+   COSMIC la vuelve a lanzar sola.
+   Si desaparece del todo, faltan tus apps ancladas o algo no se
+   actualiza: cierra sesión y vuelve a entrar (no hace falta reiniciar el PC).
+4. Si no ves ninguna barra para abrir la terminal: pulsa Super + T
+   (o Super y escribe "terminal").
+
+Dónde está cada cosa
+--------------------
+  Estilos guardados:   ~/.local/share/estilos/
+  Comando "estilo":    ~/.local/bin/estilo
+  Fondos de pantalla:  ~/Imágenes/Fondos-estilos/
+  Temas de color:      ~/Documentos/Estilos/Temas de color/
+  Temas de terminal:   ~/Documentos/Estilos/Temas de terminal/
+  Copias de seguridad: ~/.local/share/estilos-backup/
+  Apps ancladas:       ~/.config/cosmic/com.system76.CosmicAppList/v1/favorites
+
+Guía completa (con internet): el documento "Guía de estilos de tu
+escritorio COSMIC" en claude.ai

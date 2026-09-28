@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Estilo: Minimalista
+Comment=Cambia el escritorio al estilo Minimalista
+Exec=/home/moick/.local/bin/estilo poner minimalista
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;

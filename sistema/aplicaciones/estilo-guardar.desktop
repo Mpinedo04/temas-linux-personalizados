@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Estilo: Guardar cambios
+Comment=Guarda el aspecto actual dentro del estilo que tienes puesto
+Exec=/home/moick/.local/bin/estilo guardar
+Icon=document-save
+Terminal=false
+Categories=Settings;

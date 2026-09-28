@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Estilo: Hacker
+Comment=Cambia el escritorio al estilo Hacker
+Exec=/home/moick/.local/bin/estilo poner hacker
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;
