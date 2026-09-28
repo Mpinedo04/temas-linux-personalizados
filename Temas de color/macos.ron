@@ -1,0 +1,118 @@
+// ==================================================================
+// Tema "macOS" para COSMIC — macOS modo claro
+//
+// Fondo gris claro de Apple (#F2F2F7) con tarjetas blancas, azul
+// del sistema (#007AFF) y los colores de énfasis de macOS (azul,
+// morado, rosa, rojo, naranja, amarillo, verde y grafito).
+// Botones en forma de cápsula, ventanas muy redondeadas y barra,
+// dock y menús translúcidos. El borde de la ventana activa es una
+// línea gris fina, como en un Mac, en vez de un borde de color.
+//
+// Cómo ponerlo: Configuración → Escritorio → Apariencia → Importar
+// y elegir este archivo. Después: Menú → "Estilo: Guardar cambios".
+// ==================================================================
+(
+    // Color principal: botones destacados, selección, interruptores.
+    accent: Some("#007AFFFF"),
+    // Grosor en píxeles del borde de la ventana activa.
+    active_hint: 1,
+    alpha_map: (
+        extremely_low: 0.9,
+        extremely_low_2: 0.87692,
+        very_low: 0.85385,
+        very_low_2: 0.83076,
+        low: 0.80769,
+        low_2: 0.78461,
+        medium: 0.76154,
+        medium_2: 0.73846,
+        high: 0.71538,
+        high_2: 0.69231,
+        very_high: 0.66023,
+        very_high_2: 0.64615,
+        extremely_high: 0.62308,
+        extremely_high_2: 0.6,
+    ),
+    // Fondo de las ventanas.
+    bg_color: Some("#F2F2F7FF"),
+    // Redondeo de esquinas. xs: tarjetas · s: campos y ventanas (+4 px)
+    // · m: menús desplegables · l: menús del panel · xl: botones.
+    corner_radii: (
+        radius_0: (0.0, 0.0, 0.0, 0.0),
+        radius_xs: (8.0, 8.0, 8.0, 8.0),
+        radius_s: (12.0, 12.0, 12.0, 12.0),
+        radius_m: (14.0, 14.0, 14.0, 14.0),
+        radius_l: (20.0, 20.0, 20.0, 20.0),
+        radius_xl: (160.0, 160.0, 160.0, 160.0),
+    ),
+    destructive: Some("#D70015FF"),
+    // Transparencia con desenfoque (Low = sutil, Medium = media).
+    frosted: Medium,
+    frosted_applets: true,
+    frosted_panel: true,
+    frosted_system_interface: true,
+    frosted_windows: false,
+    // Separación entre ventanas en mosaico (exterior, interior).
+    gaps: (0, 10),
+    // Tono de los botones normales y controles.
+    neutral_tint: Some("#8E8E93FF"),
+    // Paleta interna: la usan campos de texto, interruptores, barras de
+    // desplazamiento, las apps GTK y los colores de énfasis que ofrece
+    // Apariencia (accent_*).
+    palette: Light((
+        name: "macos",
+        bright_red: "#D70015FF",
+        bright_green: "#1E7E34FF",
+        bright_orange: "#C93400FF",
+        gray_1: "#F2F2F7FF",
+        gray_2: "#FFFFFFFF",
+        neutral_0: "#FFFFFFFF",
+        neutral_1: "#E2E2E7FF",
+        neutral_2: "#C6C6CBFF",
+        neutral_3: "#AAAAAFFF",
+        neutral_4: "#919195FF",
+        neutral_5: "#76767BFF",
+        neutral_6: "#5E5E62FF",
+        neutral_7: "#47474BFF",
+        neutral_8: "#303034FF",
+        neutral_9: "#1B1B1EFF",
+        neutral_10: "#000000FF",
+        accent_blue: "#007AFFFF",
+        accent_indigo: "#5856D6FF",
+        accent_purple: "#AF52DEFF",
+        accent_pink: "#FF2D55FF",
+        accent_red: "#FF3B30FF",
+        accent_orange: "#FF9500FF",
+        accent_yellow: "#FFCC00FF",
+        accent_green: "#34C759FF",
+        accent_warm_grey: "#8E8E93FF",
+        ext_warm_grey: "#A2845EFF",
+        ext_orange: "#FF9500FF",
+        ext_yellow: "#FFCC00FF",
+        ext_blue: "#5AC8FAFF",
+        ext_purple: "#AF52DEFF",
+        ext_pink: "#FF2D55FF",
+        ext_indigo: "#5856D6FF",
+    )),
+    // Fondo de barras laterales y tarjetas (primario) y de lo que va
+    // dentro de ellas (secundario).
+    primary_container_bg: Some("#FFFFFFFF"),
+    secondary_container_bg: Some("#EBEBF0FF"),
+    spacing: (
+        space_none: 0,
+        space_xxxs: 4,
+        space_xxs: 8,
+        space_xs: 12,
+        space_s: 16,
+        space_m: 24,
+        space_l: 32,
+        space_xl: 48,
+        space_xxl: 64,
+        space_xxxl: 128,
+    ),
+    success: Some("#1E7E34FF"),
+    // Tono del texto (None = gris neutro).
+    text_tint: None,
+    warning: Some("#C93400FF"),
+    // Color del borde de la ventana activa (None = color de acento).
+    window_hint: Some("#B4B4BBFF"),
+)

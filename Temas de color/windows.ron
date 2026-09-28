@@ -1,0 +1,117 @@
+// ==================================================================
+// Tema "Windows" para COSMIC — Windows 11 modo oscuro (Fluent)
+//
+// Colores oficiales de Windows 11 oscuro: fondo Mica #202020,
+// tarjetas #2B2B2B y acento azul #4CC2FF. Botones con esquinas
+// de 4 px y ventanas y menús de 8 px, como en Windows 11 (antes
+// los botones salían en forma de píldora). Barra de tareas y menús
+// con efecto acrílico (transparencia con desenfoque).
+//
+// Cómo ponerlo: Configuración → Escritorio → Apariencia → Importar
+// y elegir este archivo. Después: Menú → "Estilo: Guardar cambios".
+// ==================================================================
+(
+    // Color principal: botones destacados, selección, interruptores.
+    accent: Some("#4CC2FFFF"),
+    // Grosor en píxeles del borde de la ventana activa.
+    active_hint: 1,
+    alpha_map: (
+        extremely_low: 0.9,
+        extremely_low_2: 0.87692,
+        very_low: 0.85385,
+        very_low_2: 0.83076,
+        low: 0.80769,
+        low_2: 0.78461,
+        medium: 0.76154,
+        medium_2: 0.73846,
+        high: 0.71538,
+        high_2: 0.69231,
+        very_high: 0.66023,
+        very_high_2: 0.64615,
+        extremely_high: 0.62308,
+        extremely_high_2: 0.6,
+    ),
+    // Fondo de las ventanas.
+    bg_color: Some("#202020FF"),
+    // Redondeo de esquinas. xs: tarjetas · s: campos y ventanas (+4 px)
+    // · m: menús desplegables · l: menús del panel · xl: botones.
+    corner_radii: (
+        radius_0: (0.0, 0.0, 0.0, 0.0),
+        radius_xs: (4.0, 4.0, 4.0, 4.0),
+        radius_s: (4.0, 4.0, 4.0, 4.0),
+        radius_m: (8.0, 8.0, 8.0, 8.0),
+        radius_l: (8.0, 8.0, 8.0, 8.0),
+        radius_xl: (4.0, 4.0, 4.0, 4.0),
+    ),
+    destructive: Some("#FF99A4FF"),
+    // Transparencia con desenfoque (Low = sutil, Medium = media).
+    frosted: Medium,
+    frosted_applets: true,
+    frosted_panel: true,
+    frosted_system_interface: true,
+    frosted_windows: false,
+    // Separación entre ventanas en mosaico (exterior, interior).
+    gaps: (0, 4),
+    // Tono de los botones normales y controles.
+    neutral_tint: Some("#808080FF"),
+    // Paleta interna: la usan campos de texto, interruptores, barras de
+    // desplazamiento, las apps GTK y los colores de énfasis que ofrece
+    // Apariencia (accent_*).
+    palette: Dark((
+        name: "windows-11",
+        bright_red: "#FF99A4FF",
+        bright_green: "#6CCB5FFF",
+        bright_orange: "#FFA56BFF",
+        gray_1: "#202020FF",
+        gray_2: "#2B2B2BFF",
+        neutral_0: "#000000FF",
+        neutral_1: "#1B1B1BFF",
+        neutral_2: "#303030FF",
+        neutral_3: "#474747FF",
+        neutral_4: "#5E5E5EFF",
+        neutral_5: "#777777FF",
+        neutral_6: "#919191FF",
+        neutral_7: "#ABABABFF",
+        neutral_8: "#C6C6C6FF",
+        neutral_9: "#E2E2E2FF",
+        neutral_10: "#FFFFFFFF",
+        accent_blue: "#4CC2FFFF",
+        accent_indigo: "#A5A8FFFF",
+        accent_purple: "#C9A6F2FF",
+        accent_pink: "#FF8CCFFF",
+        accent_red: "#FF99A4FF",
+        accent_orange: "#FFA56BFF",
+        accent_yellow: "#FFD34DFF",
+        accent_green: "#6CCB5FFF",
+        accent_warm_grey: "#C7BCA8FF",
+        ext_warm_grey: "#7E735FFF",
+        ext_orange: "#F7630CFF",
+        ext_yellow: "#FFB900FF",
+        ext_blue: "#0078D4FF",
+        ext_purple: "#8764B8FF",
+        ext_pink: "#E3008CFF",
+        ext_indigo: "#6B69D6FF",
+    )),
+    // Fondo de barras laterales y tarjetas (primario) y de lo que va
+    // dentro de ellas (secundario).
+    primary_container_bg: Some("#2B2B2BFF"),
+    secondary_container_bg: Some("#323232FF"),
+    spacing: (
+        space_none: 0,
+        space_xxxs: 4,
+        space_xxs: 8,
+        space_xs: 12,
+        space_s: 16,
+        space_m: 24,
+        space_l: 32,
+        space_xl: 48,
+        space_xxl: 64,
+        space_xxxl: 128,
+    ),
+    success: Some("#6CCB5FFF"),
+    // Tono del texto (None = gris neutro).
+    text_tint: None,
+    warning: Some("#FCE100FF"),
+    // Color del borde de la ventana activa (None = color de acento).
+    window_hint: None,
+)

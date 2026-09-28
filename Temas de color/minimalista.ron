@@ -1,0 +1,118 @@
+// ==================================================================
+// Tema "Minimalista" para COSMIC — paleta Nord completa
+//
+// Los 16 colores de Nord: fondos Polar Night (#2E3440, #3B4252,
+// #434C5E), texto Snow Storm, acento Frost (#88C0D0) y estados
+// Aurora. Ahora también los grises internos (campos de texto,
+// interruptores, barras de desplazamiento) son azul pizarra de Nord
+// en vez de gris neutro. Diseño plano, sin transparencias, con más
+// separación entre ventanas.
+//
+// Cómo ponerlo: Configuración → Escritorio → Apariencia → Importar
+// y elegir este archivo. Después: Menú → "Estilo: Guardar cambios".
+// ==================================================================
+(
+    // Color principal: botones destacados, selección, interruptores.
+    accent: Some("#88C0D0FF"),
+    // Grosor en píxeles del borde de la ventana activa.
+    active_hint: 1,
+    alpha_map: (
+        extremely_low: 0.9,
+        extremely_low_2: 0.87692,
+        very_low: 0.85385,
+        very_low_2: 0.83076,
+        low: 0.80769,
+        low_2: 0.78461,
+        medium: 0.76154,
+        medium_2: 0.73846,
+        high: 0.71538,
+        high_2: 0.69231,
+        very_high: 0.66023,
+        very_high_2: 0.64615,
+        extremely_high: 0.62308,
+        extremely_high_2: 0.6,
+    ),
+    // Fondo de las ventanas.
+    bg_color: Some("#2E3440FF"),
+    // Redondeo de esquinas. xs: tarjetas · s: campos y ventanas (+4 px)
+    // · m: menús desplegables · l: menús del panel · xl: botones.
+    corner_radii: (
+        radius_0: (0.0, 0.0, 0.0, 0.0),
+        radius_xs: (4.0, 4.0, 4.0, 4.0),
+        radius_s: (8.0, 8.0, 8.0, 8.0),
+        radius_m: (12.0, 12.0, 12.0, 12.0),
+        radius_l: (16.0, 16.0, 16.0, 16.0),
+        radius_xl: (160.0, 160.0, 160.0, 160.0),
+    ),
+    destructive: Some("#D87780FF"),
+    // Transparencia con desenfoque (Low = sutil, Medium = media).
+    frosted: Low,
+    frosted_applets: false,
+    frosted_panel: false,
+    frosted_system_interface: false,
+    frosted_windows: false,
+    // Separación entre ventanas en mosaico (exterior, interior).
+    gaps: (0, 12),
+    // Tono de los botones normales y controles.
+    neutral_tint: Some("#4C566AFF"),
+    // Paleta interna: la usan campos de texto, interruptores, barras de
+    // desplazamiento, las apps GTK y los colores de énfasis que ofrece
+    // Apariencia (accent_*).
+    palette: Dark((
+        name: "nord",
+        bright_red: "#BF616AFF",
+        bright_green: "#A3BE8CFF",
+        bright_orange: "#D08770FF",
+        gray_1: "#2E3440FF",
+        gray_2: "#3B4252FF",
+        neutral_0: "#000000FF",
+        neutral_1: "#131B29FF",
+        neutral_2: "#28303FFF",
+        neutral_3: "#3E4758FF",
+        neutral_4: "#555F70FF",
+        neutral_5: "#6E7888FF",
+        neutral_6: "#8992A1FF",
+        neutral_7: "#A4ABB9FF",
+        neutral_8: "#C0C7D3FF",
+        neutral_9: "#DDE3EDFF",
+        neutral_10: "#FFFFFFFF",
+        accent_blue: "#88C0D0FF",
+        accent_indigo: "#81A1C1FF",
+        accent_purple: "#B48EADFF",
+        accent_pink: "#BB8CA1FF",
+        accent_red: "#BF616AFF",
+        accent_orange: "#D08770FF",
+        accent_yellow: "#EBCB8BFF",
+        accent_green: "#A3BE8CFF",
+        accent_warm_grey: "#D8DEE9FF",
+        ext_warm_grey: "#616E88FF",
+        ext_orange: "#D08770FF",
+        ext_yellow: "#EBCB8BFF",
+        ext_blue: "#8FBCBBFF",
+        ext_purple: "#B48EADFF",
+        ext_pink: "#BB8CA1FF",
+        ext_indigo: "#5E81ACFF",
+    )),
+    // Fondo de barras laterales y tarjetas (primario) y de lo que va
+    // dentro de ellas (secundario).
+    primary_container_bg: Some("#3B4252FF"),
+    secondary_container_bg: Some("#434C5EFF"),
+    spacing: (
+        space_none: 0,
+        space_xxxs: 4,
+        space_xxs: 8,
+        space_xs: 12,
+        space_s: 16,
+        space_m: 24,
+        space_l: 32,
+        space_xl: 48,
+        space_xxl: 64,
+        space_xxxl: 128,
+    ),
+    success: Some("#A3BE8CFF"),
+    // Tono del texto (None = gris neutro).
+    text_tint: Some("#D8DEE9FF"),
+    warning: Some("#EBCB8BFF"),
+    // Color del borde de la ventana activa (None = color de acento).
+    window_hint: None,
+)
