@@ -1,0 +1,117 @@
+// ==================================================================
+// Tema "Cyberpunk" para COSMIC — Night City en neón
+//
+// Violeta casi negro, acento cian neón (#00F0FF), borde de la
+// ventana activa en magenta (#FF2BD6), avisos en el amarillo de
+// Cyberpunk 2077 (#FCEE0A) y peligro en rojo neón. Texto lavanda,
+// esquinas casi rectas y barra, dock y menús de cristal oscuro.
+// Va a juego con el fondo animado de la ciudad de neón.
+//
+// Cómo ponerlo: Configuración → Escritorio → Apariencia → Importar
+// y elegir este archivo. Después: Menú → "Estilo: Guardar cambios".
+// ==================================================================
+(
+    // Color principal: botones destacados, selección, interruptores.
+    accent: Some("#00F0FFFF"),
+    // Grosor en píxeles del borde de la ventana activa.
+    active_hint: 2,
+    alpha_map: (
+        extremely_low: 0.9,
+        extremely_low_2: 0.87692,
+        very_low: 0.85385,
+        very_low_2: 0.83076,
+        low: 0.80769,
+        low_2: 0.78461,
+        medium: 0.76154,
+        medium_2: 0.73846,
+        high: 0.71538,
+        high_2: 0.69231,
+        very_high: 0.66023,
+        very_high_2: 0.64615,
+        extremely_high: 0.62308,
+        extremely_high_2: 0.6,
+    ),
+    // Fondo de las ventanas.
+    bg_color: Some("#0D0618FF"),
+    // Redondeo de esquinas. xs: tarjetas · s: campos y ventanas (+4 px)
+    // · m: menús desplegables · l: menús del panel · xl: botones.
+    corner_radii: (
+        radius_0: (0.0, 0.0, 0.0, 0.0),
+        radius_xs: (0.0, 0.0, 0.0, 0.0),
+        radius_s: (0.0, 0.0, 0.0, 0.0),
+        radius_m: (2.0, 2.0, 2.0, 2.0),
+        radius_l: (2.0, 2.0, 2.0, 2.0),
+        radius_xl: (2.0, 2.0, 2.0, 2.0),
+    ),
+    destructive: Some("#FF2A6DFF"),
+    // Transparencia con desenfoque (Low = sutil, Medium = media).
+    frosted: Medium,
+    frosted_applets: true,
+    frosted_panel: true,
+    frosted_system_interface: true,
+    frosted_windows: false,
+    // Separación entre ventanas en mosaico (exterior, interior).
+    gaps: (0, 10),
+    // Tono de los botones normales y controles.
+    neutral_tint: Some("#745388FF"),
+    // Paleta interna: la usan campos de texto, interruptores, barras de
+    // desplazamiento, las apps GTK y los colores de énfasis que ofrece
+    // Apariencia (accent_*).
+    palette: Dark((
+        name: "cyberpunk-night-city",
+        bright_red: "#FF5C8AFF",
+        bright_green: "#39FF88FF",
+        bright_orange: "#FF8A00FF",
+        gray_1: "#0D0618FF",
+        gray_2: "#190C28FF",
+        neutral_0: "#000000FF",
+        neutral_1: "#211136FF",
+        neutral_2: "#37264DFF",
+        neutral_3: "#4E3E66FF",
+        neutral_4: "#65557FFF",
+        neutral_5: "#7F6D9AFF",
+        neutral_6: "#9888B3FF",
+        neutral_7: "#B2A3CAFF",
+        neutral_8: "#CCBFE2FF",
+        neutral_9: "#E7DCFAFF",
+        neutral_10: "#FFFFFFFF",
+        accent_blue: "#00F0FFFF",
+        accent_indigo: "#6A5CFFFF",
+        accent_purple: "#B44DFFFF",
+        accent_pink: "#FF2BD6FF",
+        accent_red: "#FF2A6DFF",
+        accent_orange: "#FF8A00FF",
+        accent_yellow: "#FCEE0AFF",
+        accent_green: "#39FF88FF",
+        accent_warm_grey: "#B9A8E0FF",
+        ext_warm_grey: "#8F7FB3FF",
+        ext_orange: "#FF8A00FF",
+        ext_yellow: "#FCEE0AFF",
+        ext_blue: "#3D7BFFFF",
+        ext_purple: "#B300FFFF",
+        ext_pink: "#FF2BD6FF",
+        ext_indigo: "#6A4CFFFF",
+    )),
+    // Fondo de barras laterales y tarjetas (primario) y de lo que va
+    // dentro de ellas (secundario).
+    primary_container_bg: Some("#190C28FF"),
+    secondary_container_bg: Some("#241537FF"),
+    spacing: (
+        space_none: 0,
+        space_xxxs: 4,
+        space_xxs: 8,
+        space_xs: 12,
+        space_s: 16,
+        space_m: 24,
+        space_l: 32,
+        space_xl: 48,
+        space_xxl: 64,
+        space_xxxl: 128,
+    ),
+    success: Some("#39FF88FF"),
+    // Tono del texto (None = gris neutro).
+    text_tint: Some("#F2D0FDFF"),
+    warning: Some("#FCEE0AFF"),
+    // Color del borde de la ventana activa (None = color de acento).
+    window_hint: Some("#FF2BD6FF"),
+)

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Estilo: Animaciones sí/no
+Comment=Enciende o apaga los fondos animados de los estilos
+Exec=/home/moick/.local/bin/estilo-animaciones alternar
+Icon=preferences-desktop-wallpaper
+Terminal=false
+Categories=Settings;

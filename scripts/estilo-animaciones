@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+# Enciende, apaga y ajusta las animaciones de los estilos de COSMIC.
+#
+#   estilo-animaciones si | no | alternar | estado | reiniciar
+#   estilo-animaciones calidad baja | media | alta
+#   estilo-animaciones destello si | no      (efecto al cambiar de estilo)
+#   estilo-animaciones intro si | no         (intro animada de la terminal)
+
+set -u
+
+BIN="$HOME/.local/bin/fondo-vivo"
+AUTOSTART="$HOME/.config/autostart/fondo-vivo.desktop"
+CONF_DIR="$HOME/.config/estilos"
+CONF="$CONF_DIR/fondos-vivos.conf"
+SIN_INTRO="$CONF_DIR/sin-intro"
+
+avisar() {
+    echo "$1"
+    # notificación de escritorio, igual que el comando estilo
+    gdbus call --session --dest org.freedesktop.Notifications \
+        --object-path /org/freedesktop/Notifications \
+        --method org.freedesktop.Notifications.Notify \
+        "Estilos" 0 "preferences-desktop-theme" "Animaciones" "$1" "[]" "{}" 4000 \
+        > /dev/null 2>&1 || true
+}
+
+# fondo-vivo mantiene bloqueado este archivo mientras está en marcha
+LOCK="${XDG_RUNTIME_DIR:-/tmp}/fondo-vivo.lock"
+
+en_marcha() {
+    if command -v flock > /dev/null && [[ -e $LOCK ]]; then
+        ! flock -n "$LOCK" true 2> /dev/null
+    else
+        pgrep -x -u "$(id -u)" fondo-vivo > /dev/null
+    fi
+}
+
+parar() {
+    pkill -x -u "$(id -u)" fondo-vivo 2> /dev/null || true
+    for _ in 1 2 3 4 5 6 7 8 9 10; do
+        en_marcha || return 0
+        sleep 0.2
+    done
+}
+
+poner_ajuste() {
+    mkdir -p "$CONF_DIR"
+    touch "$CONF"
+    if grep -q "^$1=" "$CONF"; then
+        sed -i "s|^$1=.*|$1=$2|" "$CONF"
+    else
+        echo "$1=$2" >> "$CONF"
+    fi
+}
+
+encender() {
+    if [[ ! -x $BIN ]]; then
+        avisar "No encuentro $BIN. Vuelve a ejecutar instalar.sh."
+        exit 1
+    fi
+    mkdir -p "$(dirname "$AUTOSTART")"
+    cat > "$AUTOSTART" << EOF
+[Desktop Entry]
+Type=Application
+Name=Fondos vivos de los estilos
+Comment=Fondos de pantalla animados de los estilos de COSMIC
+Exec=$BIN
+Icon=preferences-desktop-wallpaper
+NoDisplay=true
+OnlyShowIn=COSMIC;
+X-GNOME-Autostart-enabled=true
+EOF
+    if ! en_marcha; then
+        setsid -f "$BIN" > /dev/null 2>&1 < /dev/null
+    fi
+    avisar "Animaciones encendidas. Se pondrán solas al iniciar sesión."
+}
+
+apagar() {
+    rm -f "$AUTOSTART"
+    parar
+    avisar "Animaciones apagadas. Vuelve el fondo normal."
+}
+
+case "${1:-estado}" in
+    si | sí | on | encender)
+        encender
+        ;;
+    no | off | apagar)
+        apagar
+        ;;
+    alternar)
+        if en_marcha; then apagar; else encender; fi
+        ;;
+    reiniciar)
+        if en_marcha; then parar; encender; fi
+        ;;
+    calidad)
+        case "${2:-}" in
+            baja | media | alta) poner_ajuste calidad "$2" ;;
+            *) echo "Usa: estilo-animaciones calidad baja | media | alta"; exit 1 ;;
+        esac
+        avisar "Calidad de las animaciones: $2."
+        ;;
+    destello)
+        case "${2:-}" in
+            si | sí) poner_ajuste destello si; avisar "Destello al cambiar de estilo: sí." ;;
+            no) poner_ajuste destello no; avisar "Destello al cambiar de estilo: no." ;;
+            *) echo "Usa: estilo-animaciones destello si | no"; exit 1 ;;
+        esac
+        ;;
+    intro)
+        case "${2:-}" in
+            si | sí) rm -f "$SIN_INTRO"; echo "La terminal volverá a mostrar la intro." ;;
+            no) mkdir -p "$CONF_DIR"; touch "$SIN_INTRO"; echo "La terminal ya no mostrará la intro." ;;
+            *) echo "Usa: estilo-animaciones intro si | no"; exit 1 ;;
+        esac
+        ;;
+    estado)
+        if en_marcha; then echo "Fondos animados: en marcha"; else echo "Fondos animados: apagados"; fi
+        if [[ -f $AUTOSTART ]]; then echo "Al iniciar sesión: se encienden"; else echo "Al iniciar sesión: no se encienden"; fi
+        if [[ -e $SIN_INTRO ]]; then echo "Intro de la terminal: no"; else echo "Intro de la terminal: sí"; fi
+        if [[ -f $CONF ]]; then echo "Ajustes ($CONF):"; grep -v '^#' "$CONF" | sed 's/^/  /'; fi
+        ;;
+    *)
+        sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//'
+        exit 1
+        ;;
+esac

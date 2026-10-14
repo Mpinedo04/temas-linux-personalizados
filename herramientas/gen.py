@@ -235,7 +235,52 @@ nord = dict(
     ),
 )
 
-THEMES = [hacker, macos, nord, windows]
+# ──────────────────────────── CYBERPUNK ───────────────────────────
+V = 302  # violeta de Night City
+cyberpunk = dict(
+    file="cyberpunk.ron",
+    header=[
+        'Tema "Cyberpunk" para COSMIC — Night City en neón',
+        "",
+        "Violeta casi negro, acento cian neón (#00F0FF), borde de la",
+        "ventana activa en magenta (#FF2BD6), avisos en el amarillo de",
+        "Cyberpunk 2077 (#FCEE0A) y peligro en rojo neón. Texto lavanda,",
+        "esquinas casi rectas y barra, dock y menús de cristal oscuro.",
+        "Va a juego con el fondo animado de la ciudad de neón.",
+    ],
+    mode="Dark",
+    name="cyberpunk-night-city",
+    accent="#00F0FF",
+    success="#39FF88",
+    warning="#FCEE0A",
+    destructive="#FF2A6D",
+    bg=ok(0.145, 0.040, V),
+    primary=ok(0.190, 0.055, V),
+    secondary=ok(0.235, 0.065, V),
+    neutral_tint=ok(0.50, 0.090, 312),
+    text_tint=ok(0.90, 0.070, 318),
+    window_hint="#FF2BD6",
+    active_hint=2,
+    gaps=(0, 10),
+    # ventanas y campos rectos; botones y menús con un filo de 2 px
+    radii=(0, 0, 2, 2, 2),
+    frosted="Medium",
+    frosted_flags=dict(applets=True, panel=True, system_interface=True, windows=False),
+    spacing=SPACING_STANDARD,
+    neutrals=neutrals(V, lambda L: 0.070 if L < 0.6 else 0.070 - (L - 0.6) * 0.09, light=False),
+    bright=dict(red="#FF5C8A", green="#39FF88", orange="#FF8A00"),
+    accents=dict(
+        blue="#00F0FF", indigo="#6A5CFF", purple="#B44DFF", pink="#FF2BD6",
+        red="#FF2A6D", orange="#FF8A00", yellow="#FCEE0A", green="#39FF88",
+        warm_grey="#B9A8E0",
+    ),
+    ext=dict(
+        warm_grey="#8F7FB3", orange="#FF8A00", yellow="#FCEE0A", blue="#3D7BFF",
+        purple="#B300FF", pink="#FF2BD6", indigo="#6A4CFF",
+    ),
+)
+
+THEMES = [hacker, macos, nord, windows, cyberpunk]
 
 
 def opt(c):

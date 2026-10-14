@@ -69,6 +69,18 @@ SCHEMES = [
         normal=["#0C0C0C", "#C50F1F", "#13A10E", "#C19C00", "#0037DA", "#881798", "#3A96DD", "#CCCCCC"],
         bright=["#767676", "#E74856", "#16C60C", "#F9F1A5", "#3B78FF", "#B4009E", "#61D6D6", "#F2F2F2"],
     ),
+    dict(
+        file="cyberpunk.ron",
+        name="Cyberpunk Night City",
+        light=False,
+        foreground="#E6D6FF",
+        background="#0A0614",
+        cursor="#FF2BD6",
+        bright_foreground="#FFFFFF",
+        dim_foreground="#9C88C4",
+        normal=["#1A1030", "#FF2A6D", "#39FF88", "#FCEE0A", "#3D7BFF", "#FF2BD6", "#00F0FF", "#CFC2EE"],
+        bright=["#6B5A99", "#FF6B9A", "#7DFFB2", "#FFF58A", "#7FA6FF", "#FF7BEA", "#7FF8FF", "#FFFFFF"],
+    ),
 ]
 
 

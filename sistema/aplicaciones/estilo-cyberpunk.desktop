@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Estilo: Cyberpunk
+Comment=Cambia el escritorio al estilo Cyberpunk
+Exec=/home/moick/.local/bin/estilo poner cyberpunk
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;

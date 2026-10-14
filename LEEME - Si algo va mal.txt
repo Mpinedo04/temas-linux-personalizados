@@ -4,7 +4,7 @@ ESTILOS DEL ESCRITORIO — AYUDA RÁPIDA
 Cambiar de estilo
 -----------------
 Pulsa la tecla Super, escribe "estilo" y elige uno:
-  Estilo: Original · macOS · Windows · Minimalista · Hacker
+  Estilo: Original · macOS · Windows · Minimalista · Hacker · Cyberpunk
 
 O desde la terminal:
   estilo lista            (el que tiene * es el que tienes puesto)
@@ -23,6 +23,16 @@ también de colores a juego.
 Solo si sale un aviso de "Falta un paso": en Apariencia pulsa
 "Importar", elige Documentos › Estilos › Temas de color › <estilo>.ron
 y después Menú → "Estilo: Guardar cambios".
+
+Fondos animados y terminal
+--------------------------
+Cada estilo tiene un fondo animado y una intro en la terminal.
+Encender o apagar los fondos animados:
+  Menú → "Estilo: Animaciones sí/no"   (o: estilo-animaciones no)
+Si gastan mucha batería:   estilo-animaciones calidad baja
+Quitar la intro de la terminal:   estilo-animaciones intro no
+Quitarlo todo (los estilos se quedan):   bash desinstalar.sh
+  (desde la carpeta Documentos › Estilos)
 
 SI ALGO VA MAL
 --------------
@@ -43,6 +53,7 @@ Dónde está cada cosa
 --------------------
   Estilos guardados:   ~/.local/share/estilos/
   Comando "estilo":    ~/.local/bin/estilo
+  Fondos animados:     ~/.local/bin/fondo-vivo  (ajustes: ~/.config/estilos/)
   Fondos de pantalla:  ~/Imágenes/Fondos-estilos/
   Temas de color:      ~/Documentos/Estilos/Temas de color/
   Temas de terminal:   ~/Documentos/Estilos/Temas de terminal/
