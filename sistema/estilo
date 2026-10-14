@@ -131,6 +131,7 @@ case "${1:-}" in
     a=$(actual)
     for s in "$DIR"/*/; do
       s=$(basename "$s")
+      [[ -d "$DIR/$s/com.system76.CosmicTheme.Mode" ]] || continue  # p. ej. fondos-vivos/ y terminal/ no son estilos
       [[ "$s" == "$a" ]] && echo "* $s" || echo "  $s"
     done ;;
   guardar)
